@@ -28,8 +28,9 @@ function Header({currentUser,handleLogut}) {
               <NavLink to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/blogs">Services</NavLink>
+              <NavLink to="/services">Services</NavLink>
             </li>
+           
             <li>
               <NavLink to="/projects">Projects</NavLink>
             </li>
@@ -40,7 +41,7 @@ function Header({currentUser,handleLogut}) {
 
               </>
             ):(
-             <>
+             
               <li>
               <NavLink to="/about">
                   <button className='loginBtn'>Login / Register </button>
