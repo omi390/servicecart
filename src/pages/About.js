@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Button, Form } from "react-bootstrap";
 
-function About({handleLogin}) {
+function Auth({handleLogin}) {
   const navigate = useNavigate(); //
   const [formData, setFormData] = useState({
     firstname: "",
@@ -187,4 +187,4 @@ function About({handleLogin}) {
   );
 }
 
-export default About;
+export default Auth;
