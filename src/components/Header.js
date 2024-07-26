@@ -41,13 +41,14 @@ function Header({currentUser,handleLogut}) {
 
               </>
             ):(
-             
+              <>
               <li>
-              <NavLink to="/about">
+              <NavLink to="/auth">
                   <button className='loginBtn'>Login / Register </button>
               </NavLink>
             </li> 
-            </>)
+            </>
+            )
              }
              <li>
               <NavLink to="/contact">
