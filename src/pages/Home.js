@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { CircularProgress } from '@chakra-ui/react';
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -21,11 +20,11 @@ const Home = () => {
         setLoading(false);
       }
     };
-
+    
     fetchCategories();
   }, []);
 
-  if (loading) return <div><CircularProgress isIndeterminate color='green.300' /></div>;
+  if (loading) return <div> loading..</div>;
   if (error) return <div style={{ color: 'red' }}>Error: {error}</div>;
 
   return (

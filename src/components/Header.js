@@ -1,16 +1,18 @@
 // src/components/Header.js
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 import '../App.css';
 
-function Header() {
-
+function Header({currentUser,handleLogut}) {
 
     const [showNavbar, setShowNavbar] = useState(false);
   
     const handleShowNavbar = () => {
       setShowNavbar(!showNavbar);
     };
+ 
   return (
       <nav className="navbar">
       <div className="container-header">
@@ -31,16 +33,37 @@ function Header() {
             <li>
               <NavLink to="/projects">Projects</NavLink>
             </li>
-            <li>
+           {
+            currentUser ? (
+              <>
+                            <li onClick={handleLogut}> logout</li> 
+
+              </>
+            ):(
+             <>
+              <li>
               <NavLink to="/about">
                   <button className='loginBtn'>Login / Register </button>
               </NavLink>
-            </li>
-            <li>
+            </li> 
+            </>)
+             }
+             <li>
               <NavLink to="/contact">
                 <button className='downloadBtn'>Download Now</button>
               </NavLink>
             </li>
+
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Dropdown Button
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
           </ul>
         </div>
       </div>
