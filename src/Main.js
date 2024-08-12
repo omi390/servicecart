@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 import CategoryDetail from './pages/CategoryDetail';
 import Profile from './pages/Profile';
+import Demo from './pages/demo';
+import SubCategoryDisplay from './pages/SubCategoryDisplay';
 
 function Main({currentUser,handleLogin}) {
   return (
@@ -12,8 +14,11 @@ function Main({currentUser,handleLogin}) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth handleLogin={handleLogin}/>} />
-          <Route path="/category/:id" element={<CategoryDetail />} />  
-          <Route path="/profile" element={<Profile/>}/>       
+          <Route path="/category/:id/:name" element={<CategoryDetail />} />  
+          <Route path="/profile" element={<Profile/>}/>  
+          <Route path="/demo" element={<Demo/>}/> 
+          <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/>     
+     
         </Routes>
       </div>
   );

@@ -5,11 +5,44 @@ import Sidebar from './components/Sidebar';
 import Main from './Main';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MapWithModal from './pages/MapWithModal';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import axios from 'axios';
 
 function App() {
+
+
   const [currentUser,setCurrentUser] = useState(localStorage.getItem('user'));
 
-  useEffect(() => {
+  //location map 
+
+  const [location, setLocation] = useState(null);
+  const [isModalOpen, setIsModalOpen] =  useState(false);
+
+  const handleProceed = (location) => {
+    setLocation(location);
+    setIsModalOpen(false);
+    // Proceed to the next screen or handle the location data
+    console.log('Location set:', location);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  useEffect(  () => {
+    const configApiCallFun = async () => {
+
+    const configApiCall =  await axios.get(`${process.env.REACT_APP_ENDPOINT}/customer/config`
+    );
+      console.log(configApiCall);
+      localStorage.setItem('imgBaseURL',configApiCall.data.content.image_base_url);
+
+    }
+    configApiCallFun();
+    const zoneId = localStorage.getItem('zoneId');
+    if(!zoneId){
+      setIsModalOpen(true);
+    }
     const user = localStorage.getItem('user');
     if(user){
       setCurrentUser(user);
@@ -24,21 +57,6 @@ function App() {
     setCurrentUser(localStorage.getItem('user'));
   }
 
-  //location map 
-
-  const [location, setLocation] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const handleProceed = (location) => {
-    setLocation(location);
-    setIsModalOpen(false);
-    // Proceed to the next screen or handle the location data
-    console.log('Location set:', location);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <div className="App">
