@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 import CategoryDetail from './pages/CategoryDetail';
 import Profile from './pages/Profile';
-import Demo from './pages/demo';
+import LoginModal from './pages/loginModal';
 import SubCategoryDisplay from './pages/SubCategoryDisplay';
 
 function Main({currentUser,handleLogin}) {
@@ -16,7 +16,7 @@ function Main({currentUser,handleLogin}) {
           <Route path="/auth" element={<Auth handleLogin={handleLogin}/>} />
           <Route path="/category/:id/:name" element={<CategoryDetail />} />  
           <Route path="/profile" element={<Profile/>}/>  
-          <Route path="/demo" element={<Demo/>}/> 
+          <Route path="/loginModal" element={<LoginModal/>}/> 
           <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/>     
      
         </Routes>

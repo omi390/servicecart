@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { FiSearch } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+
+
 
 
 
 import '../App.css';
 
-function Header({currentUser,handleLogut}) {
+function Header({currentUser,handleLogut,handleOpenLoginModal}) {
 
     const [showNavbar, setShowNavbar] = useState(false);
   
@@ -39,14 +43,14 @@ function Header({currentUser,handleLogut}) {
            {
             currentUser ? (
               <>
-                            <li onClick={handleLogut}> logout</li> 
+
 
               </>
             ):(
               <>
               <li>
-              <NavLink to="/auth">
-                  <button className='loginBtn'>Login / Register </button>
+              <NavLink onClick={handleOpenLoginModal}>
+                  <p className='loginBtn'>Login / Register </p>
               </NavLink>
             </li> 
             </>
@@ -54,17 +58,19 @@ function Header({currentUser,handleLogut}) {
              }
              <li>
               <NavLink to="/contact">
-                <button className='downloadBtn'>Download Now</button>
+             <FiSearch />
+             
               </NavLink>
             </li>
 
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Dropdown Button
+              <Dropdown.Toggle id="dropdown-basic">
+              <CgProfile />
+
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+                <Dropdown.Item onClick={handleLogut}>Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 

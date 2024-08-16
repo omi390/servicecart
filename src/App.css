@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playwrite+IT+Moderna:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 *{
-
-  /* font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal; */
+  font-family: "Montserrat", sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-style: normal !important;
 }
 
 /* src/App.css */
@@ -20,6 +19,7 @@
   /* max-width: 1100px; */
   margin: 0 auto;
   padding: 0 15px;
+  padding-top: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +28,7 @@
 
 .navbar {
   height: 60px;
-  background-color: #fee5fc;
+  background-color: #f5f4f5;
   position: relative;
   display: block !important;
 }
@@ -49,7 +49,7 @@
 }
 
 .nav-elements ul a {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 400;
   color: #2f234f;
   text-decoration: none;
@@ -68,7 +68,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #574c4c;
+  background-color: #5c056c;
 }
 
 @media (max-width: 768px) {
@@ -119,22 +119,30 @@
 .loginBtn{
   font-weight: 900;
   padding: 9px;
-  background-color: purple;
-  color:white;
-  border-radius: 85px;
+  /* background-color: purple; */
+  color:black;
+  font-weight: 400;
+  padding-top: 26px;
+  /* border-radius: 85px; */
 }
-.downloadBtn{
-  font-weight: 900;
-  padding: 9px;
+/* .searchBtn{ */
+  /* font-weight: 400; */
+  /* padding: 9px;
+  padding-top: 26px;
   background-color: rgb(0, 51, 128);
-  color:white;
+  color:black;
   border-radius: 85px;
-}
+} */
 .logoTitle{
   font-size: 1.5rem;
-  font-weight: 900;
+  font-weight: 500;
   color: purple;
-  font-style: italic;
+  /* font-style:normal; */
+}
+.dropdown-toggle{
+  background-color: transparent !important;
+  color: black !important;
+  border-color: transparent !important;
 }
 
 .form_page{
@@ -355,7 +363,45 @@ margin-bottom: 1px !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 12px;
-  border: 1px solid #504f50;
+  /* border: 1px solid #504f50; */
 
 
 }
+.cartDiv{
+    border: 1px solid #504f50;
+    width: 80px;
+    border-radius: 9px; 
+
+}
+.cartCounter:hover{
+  background-color: #e9e9e9;
+}
+.cart-div h5 , 
+.cart-div p{
+  text-align: left;
+  font-size: 14px;
+}
+.cart-btn{
+  background-color: #9000aa !important;
+  border: 2px solid #5c056c !important;
+}
+.login-title{
+  font-size: 16px;
+}
+.mb-3{
+  margin-top: 20px;
+}
+.login-btn{
+  background-color: #9000aa !important;
+  border: 2px solid #5c056c !important;
+  margin-top: 20px !important;
+  width: 450px;
+}
+.login-btn:hover{
+  background-color: #460252 !important;
+}
+.check-btn{
+  margin-top: 8px !important;
+  font-size: 14px !important;
+}
+
