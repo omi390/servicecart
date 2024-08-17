@@ -39,6 +39,13 @@ const SubCategoryDisplay = () => {
       }
     );
     if (responseCartItems.data.response_code === "default_200") {
+      responseCartItems.data.content.cart.data.forEach(variation => {
+        setVariantQuantities((prevQuantities) => ({
+          ...prevQuantities,
+          [variation.variant_key]: variation.quantity,
+        }));
+      });
+     
       setcartItems(responseCartItems.data.content.cart.data);
       setcartLoader(false);
     } else {
@@ -47,7 +54,6 @@ const SubCategoryDisplay = () => {
   };
   useEffect(() => {
     //fetchCartItems
-    fetchCartItems();
     const fetchServices = async () => {
       try {
         const data = { limit: 10, offset: 1 };
@@ -81,6 +87,8 @@ const SubCategoryDisplay = () => {
       }
     };
     fetchServices();
+    fetchCartItems();
+
   }, [id]);
 
   useEffect(() => {
