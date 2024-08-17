@@ -25,35 +25,61 @@ const SubCategoryDisplay = () => {
   };
 
   const fetchCartItems = async () => {
-    const responseCartItems = await axios.get(
-      `${process.env.REACT_APP_ENDPOINT}/customer/cart/list`,
-      {
-        params: {
-          offset: 1,
-          limit: 15,
-        },
-        headers: {
-          zoneId: localStorage.getItem("zoneId"),
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-    if (responseCartItems.data.response_code === "default_200") {
-      responseCartItems.data.content.cart.data.forEach(variation => {
-        setVariantQuantities((prevQuantities) => ({
+    try {
+      const responseCartItems = await axios.get(
+        `${process.env.REACT_APP_ENDPOINT}/customer/cart/list`,
+        {
+          params: {
+            offset: 1,
+            limit: 15,
+          },
+          headers: {
+            zoneId: localStorage.getItem("zoneId"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      if (responseCartItems.data.response_code === "default_200") {
+        console.log("Cart items fetched:", responseCartItems.data.content.cart.data);
+        
+        // Update variant quantities based on cart items
+        const newQuantities = responseCartItems.data.content.cart.data.reduce((acc, variation) => {
+          acc[variation.variant_key] = variation.quantity;
+          return acc;
+        }, {});
+  
+        setVariantQuantities(prevQuantities => ({
           ...prevQuantities,
-          [variation.variant_key]: variation.quantity,
+          ...newQuantities,
         }));
-      });
-     
-      setcartItems(responseCartItems.data.content.cart.data);
+  
+        setcartItems(responseCartItems.data.content.cart.data);
+        setcartLoader(false);
+      } else {
+        setcartItems([]);
+        setcartLoader(false);
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
       setcartLoader(false);
-    } else {
-      setcartItems(false);
     }
   };
+  
+    
   useEffect(() => {
     //fetchCartItems
+/**
+     * Fetches and sets customer service sub-categories based on the given ID
+     * @example
+     * exampleFunction()
+     * No return value
+     * @param {number} id - The ID of the sub-category to fetch.
+     * @returns {void} 
+     * @description
+     *   - Retrieves zoneId from localStorage and sends it in the request headers.
+     *   - Sets the initial service and variant quantities upon successful data fetch.
+     *   - Handles and logs errors if the request fails.
+     */
     const fetchServices = async () => {
       try {
         const data = { limit: 10, offset: 1 };
@@ -87,10 +113,13 @@ const SubCategoryDisplay = () => {
       }
     };
     fetchServices();
-    fetchCartItems();
 
   }, [id]);
+  useEffect(() => {
+    fetchCartItems();
 
+    console.log("Current variant quantities:", variantQuantities);
+  }, [variantQuantities]);
   useEffect(() => {
     if (selectedService.id && variantsRef.current[selectedService.id]) {
       variantsRef.current[selectedService.id].scrollIntoView({
@@ -143,16 +172,47 @@ const SubCategoryDisplay = () => {
     console.log(response);
   };
 
-  const handleQuantityChange = (variationId, change) => {
-    setVariantQuantities((prevQuantities) => {
-      const newQuantity = (prevQuantities[variationId] || 0) + change;
-      return {
-        ...prevQuantities,
-        [variationId]: newQuantity > 0 ? newQuantity : 0,
-      };
-    });
-  };
+  const handleQuantityChange = async (variationId, change) => {
+    const newQuantity = (variantQuantities[variationId] || 0) + change;
+  
+    if (newQuantity <= 0) {
+      return; // Prevent the quantity from going below 1
+    }
+  
+    setVariantQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [variationId]: newQuantity,
+    }));
 
+  
+    // Find the cart item that matches the variant key
+    const cartItem = cartItems.find(item => item.variant_key === variationId);
+  
+    if (cartItem) {
+      try {
+        const response = await axios.put(
+          `https://myservicecart.com/co/api/v1/customer/cart/update-quantity/${cartItem.id}`,
+          { quantity: newQuantity },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              zoneId: localStorage.getItem("zoneId"),
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+  
+        if (response.data.response_code === "default_200") {
+          toast.success("Quantity updated successfully!");
+          fetchCartItems(); // Refresh the cart items after updating the quantity
+        }
+      } catch (error) {
+        console.error("Failed to update quantity", error);
+        toast.error("Failed to update quantity");
+      }
+    }
+  };
+  
   return (
     <div style={{ padding: "20px" }}>
       <Row style={{ height: "100vh" }}>
@@ -279,6 +339,7 @@ const SubCategoryDisplay = () => {
                             ₹ {variation.price}
                           </span>
                         </div>
+
 
                         <div style={{ display: "flex", alignItems: "center" }}>
                           {variantQuantities[variation.variant_key] > 0 ? (
