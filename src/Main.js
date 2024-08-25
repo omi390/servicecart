@@ -7,6 +7,7 @@ import CategoryDetail from './pages/CategoryDetail';
 import Profile from './pages/Profile';
 import LoginModal from './pages/loginModal';
 import SubCategoryDisplay from './pages/SubCategoryDisplay';
+import SlotPicker from './pages/SlotPicker';
 
 function Main({currentUser,handleLogin}) {
   return (
@@ -18,7 +19,8 @@ function Main({currentUser,handleLogin}) {
           <Route path="/profile" element={<Profile/>}/>  
           <Route path="/loginModal" element={<LoginModal/>}/> 
           <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/>     
-     
+          <Route path="/tuneSlots" element={<SlotPicker/>}/>     
+
         </Routes>
       </div>
   );

@@ -4,32 +4,41 @@ import { Link, NavLink } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { FiSearch } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-
-
-
-
-
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { IoIosArrowDown } from "react-icons/io";
 import '../App.css';
 
-function Header({currentUser,handleLogut,handleOpenLoginModal}) {
+function Header({isModalOpen,currentUser,handleLogut,handleOpenLoginModal}) {
 
     const [showNavbar, setShowNavbar] = useState(false);
-  
+
+    const zoneName = localStorage.getItem('zoneName');
     const handleShowNavbar = () => {
       setShowNavbar(!showNavbar);
     };
  
+    const openLocationModal = () => {
+      isModalOpen(true);
+    };
   return (
       <nav className="navbar">
       <div className="container-header">
-        <div className="logo">
+        <div className="logo"  style={{ display: 'flex', alignItems: 'center' }}>
           <p className='logoTitle'>Servicecart</p>
+        
         </div>
         <div className="menu-icon" onClick={handleShowNavbar}>
           <Hamburger />
         </div>
         <div className={`nav-elements  ${showNavbar && "active"}`}>
           <ul>
+            <li>
+            <div onClick={openLocationModal} style={{ display: 'flex', alignItems: 'center' }}>
+                <FaMapMarkerAlt style={{ marginRight: '8px' }} />
+                <span className='locationSpan'>{zoneName}</span>
+                <IoIosArrowDown style={{ marginLeft: '3px' }} />
+            </div>
+            </li>
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
@@ -49,7 +58,7 @@ function Header({currentUser,handleLogut,handleOpenLoginModal}) {
             ):(
               <>
               <li>
-              <NavLink onClick={handleOpenLoginModal}>
+              <NavLink to="/##" onClick={handleOpenLoginModal}>
                   <p className='loginBtn'>Login / Register </p>
               </NavLink>
             </li> 

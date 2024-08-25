@@ -109,7 +109,7 @@ const LoginModal = ({ isOpen, onClose, onProceed }) => {
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
           width: "40%",
-          height: "40%",
+          height: "",
           borderRadius: "7px",
         },
       }}
@@ -132,7 +132,7 @@ const LoginModal = ({ isOpen, onClose, onProceed }) => {
           <Form.Group className="check-btn" id="formGridCheckbox">
             <Form.Check type="checkbox" label="Get order on whatsapp" />
           </Form.Group>
-          <Button onClick={handleOTPSubmit} className="login-btn" size="sm">
+          <Button onClick={handleOTPSubmit} className="login-btn w-100" size="sm">
             Submit OTP
           </Button>
         </div>
@@ -151,7 +151,7 @@ const LoginModal = ({ isOpen, onClose, onProceed }) => {
           <Form.Group className="check-btn" id="formGridCheckbox">
             <Form.Check type="checkbox" label="Get order on whatsapp" />
           </Form.Group>
-          <Button onClick={handleSubmit} className="login-btn" size="sm">
+          <Button onClick={handleSubmit} className="login-btn w-100" size="sm">
             Proceed
           </Button>
         </div>

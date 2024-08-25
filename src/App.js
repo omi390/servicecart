@@ -44,6 +44,7 @@ function App() {
         "imgBaseURL",
         configApiCall.data.content.image_base_url
       );
+    
     };
     configApiCallFun();
     const zoneId = localStorage.getItem("zoneId");
@@ -92,6 +93,7 @@ function App() {
   return (
     <div className="App">
       <Header
+        isModalOpen={setIsModalOpen}
         currentUser={currentUser}
         handleOpenLoginModal={handleOpenLoginModal}
         handleLogut={handleLogut}
