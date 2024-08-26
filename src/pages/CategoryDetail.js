@@ -69,7 +69,7 @@ const CategoryDetail = () => {
               <Col>
               <div key={category.id}>
                 <img src={`${imgBaseUrl}/category/${category.image}`} alt="i mg" />
-                <h5  className="category-slider-font-title">
+                <h5  className="category-slider-font-title pt-4">
                   <Link to={`/subcategory/services/${category.id}/${category.name}`}>{category.name}</Link>
                 </h5>
               </div>
@@ -80,46 +80,7 @@ const CategoryDetail = () => {
           {/* </Slider> */}
         </div>
       <div>
-      <Row className='cardDiv'>
-        <Col md={3} >
-      <Card className='subCategoryCard' style={{ width: '18rem',backgroundColor:colors[0] }}>
-      <Card.Img variant="top" src="https://res.cloudinary.com/urbanclap/image/upload/t_high_res_category/w_48,dpr_1,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/home-screen/1679292077307-6143d7.jpeg" />
-      <Card.Body className='card-body'>
-        <Card.Title>{categories.name}</Card.Title>
-      
-        {/* <Button variant="primary">Go somewhere</Button> */}
-      </Card.Body>
-    </Card>
-    </Col>
-
-    <Col md={3} >
-      <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body className='card-body'>
-        <Card.Title>{categories.name}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        {/* <Button variant="primary">Go somewhere</Button> */}
-      </Card.Body>
-    </Card>
-    </Col>
-
-    <Col md={3} >
-      <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body className='card-body'>
-        <Card.Title>{categories.name}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        {/* <Button variant="primary">Go somewhere</Button> */}
-      </Card.Body>
-    </Card>
-    </Col>
-    </Row>
+   
       </div>
     </div>/* main div */
   );

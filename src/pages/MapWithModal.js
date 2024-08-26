@@ -8,11 +8,13 @@ import { useMap } from "react-leaflet/hooks";
 import "leaflet-geosearch/dist/geosearch.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { MdArrowForwardIos } from "react-icons/md";
 
 const SearchField = ({ onSearchResult }) => {
   const map = useMap();
 
   useEffect(() => {
+
     const provider = new OpenStreetMapProvider();
     const searchControl = new GeoSearchControl({
       provider,
@@ -34,12 +36,29 @@ const SearchField = ({ onSearchResult }) => {
   return null;
 };
 
+
+
 const MapWithModal = ({ isOpen, onClose, onProceed }) => {
   const [location, setLocation] = useState(null);
-
+  useEffect(() => {
+    const lat = localStorage.getItem("lat");
+    const lng = localStorage.getItem("lng");
+  
+    console.log("Latitude:", lat);
+    console.log("Longitude:", lng);
+  
+    if (lat !== null && lng !== null) {
+      setLocation([parseFloat(lat), parseFloat(lng)]);
+    } else {
+      console.error("Latitude or Longitude not found in localStorage");
+    }
+  }, []);
   const MapEvents = () => {
     useMapEvents({
       click(e) {
+
+        localStorage.setItem("lat",e.latlng.lat);
+        localStorage.setItem("lng",e.latlng.lng);
         setLocation([e.latlng.lat, e.latlng.lng]);
       },
     });
@@ -69,6 +88,10 @@ const MapWithModal = ({ isOpen, onClose, onProceed }) => {
         const zoneId = localStorage.setItem(
           "zoneId",
           response.data.content.zone.id
+        );
+        localStorage.setItem(
+          "zoneName",
+          response.data.content.zone.name
         );
         console.log(location[0]);
         onProceed(location);
@@ -105,10 +128,24 @@ const MapWithModal = ({ isOpen, onClose, onProceed }) => {
         },
       }}
     >
-      <h2>Set Your Location</h2>
-      <p>Click on the map or use the search bar to set your location.</p>
+    <div style={{
+      display:"flex",
+      justifyContent:"space-between"
+    }}>
+       <div>
+       <h2>Set Your Location</h2>
+       <p>Click on the map or use the search bar to set your location.</p>
+       </div>
+
+      {location && (
+        <button className="proceedBtnLocation" onClick={handleProceed} style={{ marginTop: "10px" }}>
+          Proceed 
+
+        </button>
+      )}
+    </div>
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[15.852792, 74.498703]}
         zoom={13}
         style={{ height: "60vh", width: "100%" }}
       >
@@ -120,11 +157,7 @@ const MapWithModal = ({ isOpen, onClose, onProceed }) => {
         <SearchField onSearchResult={setLocation} />
         {location && <Marker position={location} />}
       </MapContainer>
-      {location && (
-        <button onClick={handleProceed} style={{ marginTop: "10px" }}>
-          Proceed
-        </button>
-      )}
+   
     </Modal>
   );
 };

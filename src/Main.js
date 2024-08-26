@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import LoginModal from './pages/loginModal';
 import SubCategoryDisplay from './pages/SubCategoryDisplay';
 import { CheckOutPage } from './pages/CheckOutPage';
+import SlotPicker from './pages/SlotPicker';
 
 function Main({currentUser,handleLogin}) {
   return (
@@ -21,6 +22,8 @@ function Main({currentUser,handleLogin}) {
           <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/> 
           <Route path="/checkOut" element={< CheckOutPage/>}/>    
      
+          <Route path="/tuneSlots" element={<SlotPicker/>}/>     
+
         </Routes>
       </div>
   );

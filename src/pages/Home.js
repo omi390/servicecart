@@ -73,7 +73,7 @@ const Home = () => {
           <div>
             <img
               className="imgBanner"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTQpVoPza2SQYJwvY0WPX_DPvz-jlXmeUmbcekhdzOt2-tmsj0j84sYd6bBk-utVDQa1c&usqp=CAU"
+              src="https://res.cloudinary.com/urbanclap/image/upload/t_high_res_template/w_600,dpr_2,fl_progressive:steep,q_auto:low,f_auto,c_limit/images/growth/luminosity/1698216827166-bc6957.jpeg"
               alt="Banner 1"
             />
           </div>
@@ -88,13 +88,13 @@ const Home = () => {
       </div>
 
       <div className="slider">
-        <h4> Categories {process.env.REACT_APP_API_URL}</h4>
+        <h4>Trending Categories {process.env.REACT_APP_API_URL}</h4>
         <div className="category-slider">
           <Slider {...categorySliderSettings}>
             {categories.map((category, index) => (
               <div key={category.id}>
                 <img src={`${imgBaseUrl}/category/${category.image}`} alt="i mg" />
-                <h5  className="category-slider-font-title">
+                <h5  className="category-slider-font-title pt-4">
                   <Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link>
                 </h5>
               </div>
