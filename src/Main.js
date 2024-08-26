@@ -7,6 +7,7 @@ import CategoryDetail from './pages/CategoryDetail';
 import Profile from './pages/Profile';
 import LoginModal from './pages/loginModal';
 import SubCategoryDisplay from './pages/SubCategoryDisplay';
+import { CheckOutPage } from './pages/CheckOutPage';
 
 function Main({currentUser,handleLogin}) {
   return (
@@ -17,7 +18,8 @@ function Main({currentUser,handleLogin}) {
           <Route path="/category/:id/:name" element={<CategoryDetail />} />  
           <Route path="/profile" element={<Profile/>}/>  
           <Route path="/loginModal" element={<LoginModal/>}/> 
-          <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/>     
+          <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/> 
+          <Route path="/checkOut" element={< CheckOutPage/>}/>    
      
         </Routes>
       </div>

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const colors = ['#FF5733', '#33FF57', '#3357FF', '#F5FF33', '#FF33A6'];
 
 const CategoryDetail = () => {
-    const {id,name} = useParams();
+  const {id,name} = useParams();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
