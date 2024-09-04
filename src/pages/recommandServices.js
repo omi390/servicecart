@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import ServiceCard from "../components/serviceCard";
 import Slider from "react-slick";
 
-
 const RecommandServices = () =>{
     
-
     const data =
     {
         'name' :'name',
@@ -13,7 +11,7 @@ const RecommandServices = () =>{
             'default_price' : 900
         }
     };
-
+    
     const recomandServiceSetting ={
         
         speed:1000,
@@ -21,7 +19,6 @@ const RecommandServices = () =>{
         slidesToShow:4,
         autoplay:true,
 };
-
     return (
         <div className="recomandDiv"> 
             <h4> Recomanded Services </h4>
@@ -37,8 +34,6 @@ const RecommandServices = () =>{
                 </div>
             </Slider>
         </div>
-
     );
-
 }
 export default RecommandServices;

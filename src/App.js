@@ -9,15 +9,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import LoginModal from "./pages/loginModal";
+import SearchModal from "./pages/SearchModal";
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem("token"));
+  const [modalShow, setModalShow] = useState(false);
 
   //location map
 
   const [location, setLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
 
   const handleProceed = (location) => {
     setLocation(location);
@@ -89,6 +93,10 @@ function App() {
       console.log("something went wrong");
     }
   };
+  const handleSearchModal = () =>{
+    setModalShow(true);
+  };
+  
 
   return (
     <div className="App">
@@ -97,6 +105,8 @@ function App() {
         currentUser={currentUser}
         handleOpenLoginModal={handleOpenLoginModal}
         handleLogut={handleLogut}
+        handleSearchModal=
+        {handleSearchModal}
       />
       <div className="App-body">
         <Main currentUser={currentUser} handleLogin={handleLogin} />
@@ -117,7 +127,12 @@ function App() {
           <p>Proceed to the next screen...</p>
         </div>
       )}
-    </div>
+      <SearchModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+
+      </div>
   );
 }
 

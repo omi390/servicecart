@@ -18,10 +18,10 @@ const getAdjustedSlotsForToday = (slots) => {
   return slots.filter(slot => slot > now);
 };
 
-const SlotPicker = () => {
-    const [selectedSlot, setSelectedSlot] = useState(null);
+const SlotPicker = ({setSelectedSlot}) => {
     const [activeTab, setActiveTab] = useState(0);
-  
+    const [selectedSlot, setTempSelectedSlot] = useState({});
+
     const startHour = 10;
     const endHour = 17;
   
@@ -54,7 +54,8 @@ const SlotPicker = () => {
   
     const handleSlotSelect = (slot) => {
       setSelectedSlot(slot);
-      alert(`You have selected ${slot}`);
+      setTempSelectedSlot(slot)
+      // alert(`You have selected ${slot}`);
     };
   
     const formatDate = (date) => {

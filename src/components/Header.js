@@ -6,9 +6,13 @@ import { FiSearch } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IoIosArrowDown } from "react-icons/io";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import SearchModal from '../pages/SearchModal';
+// import {handleSearchModal} from '../App'; 
+
 import '../App.css';
 
-function Header({isModalOpen,currentUser,handleLogut,handleOpenLoginModal}) {
+function Header({isModalOpen,currentUser,handleLogut,handleOpenLoginModal,handleSearchModal}) {
 
     const [showNavbar, setShowNavbar] = useState(false);
 
@@ -65,11 +69,14 @@ function Header({isModalOpen,currentUser,handleLogut,handleOpenLoginModal}) {
             </>
             )
              }
+             
              <li>
               <NavLink to="/contact">
-             <FiSearch />
+             <FiSearch  onClick={handleSearchModal}/>
              
               </NavLink>
+            </li>
+            <li style={{padding:"5px",marginRight:"5px",alignContent:"center"}}><MdOutlineShoppingCart />
             </li>
 
             <Dropdown>

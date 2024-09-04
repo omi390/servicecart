@@ -9,6 +9,9 @@ import LoginModal from './pages/loginModal';
 import SubCategoryDisplay from './pages/SubCategoryDisplay';
 import { CheckOutPage } from './pages/CheckOutPage';
 import SlotPicker from './pages/SlotPicker';
+import BookingOrder from './pages/BookingOrder';
+import BookingDetails from './pages/BookingDetails';
+// import Paypages/Payment';
 
 function Main({currentUser,handleLogin}) {
   return (
@@ -20,9 +23,11 @@ function Main({currentUser,handleLogin}) {
           <Route path="/profile" element={<Profile/>}/>  
           <Route path="/loginModal" element={<LoginModal/>}/> 
           <Route path="/subcategory/services/:id/:name" element={<SubCategoryDisplay/>}/> 
-          <Route path="/checkOut" element={< CheckOutPage/>}/>    
-     
-          <Route path="/tuneSlots" element={<SlotPicker/>}/>     
+          <Route path="/checkOut" element={< CheckOutPage/>}/>  
+          <Route path="/tuneSlots" element={<SlotPicker/>}/> 
+          <Route path="/bookings" element={<BookingOrder/>}/>
+          <Route path="/bookingDetail" element={< BookingDetails/>}/>
+  
 
         </Routes>
       </div>

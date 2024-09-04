@@ -1,12 +1,15 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { Col, Row, Button, Collapse } from "react-bootstrap";
 import cartempimg from "../images/cartimg.png";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
+import { CgCloseO } from "react-icons/cg";
+import { BsTrash3 } from "react-icons/bs";
+import { CheckOutPage } from "./CheckOutPage";
 
 const SubCategoryDisplay = () => {
   const [services, setServices] = useState([]);
@@ -40,19 +43,27 @@ const SubCategoryDisplay = () => {
         }
       );
       if (responseCartItems.data.response_code === "default_200") {
-        console.log("Cart items fetched:", responseCartItems.data.content.cart.data);
-        
+        console.log(
+          "Cart items fetched:",
+          responseCartItems.data.content.cart.data
+        );
+
         // Update variant quantities based on cart items
-        const newQuantities = responseCartItems.data.content.cart.data.reduce((acc, variation) => {
-          acc[variation.variant_key] = variation.quantity;
-          return acc;
-        }, {});
-  
-        setVariantQuantities(prevQuantities => ({
+        const newQuantities = responseCartItems.data.content.cart.data.reduce(
+          (acc, variation) => {
+            acc[variation.variant_key] = variation.quantity;
+            return acc;
+          },
+          {}
+        );
+        console.log("cart newQuantities");
+
+        console.log(newQuantities);
+        setVariantQuantities((prevQuantities) => ({
           ...prevQuantities,
           ...newQuantities,
         }));
-  
+
         setcartItems(responseCartItems.data.content.cart.data);
         setcartLoader(false);
       } else {
@@ -64,22 +75,8 @@ const SubCategoryDisplay = () => {
       setcartLoader(false);
     }
   };
-  
-    
+
   useEffect(() => {
-    //fetchCartItems
-/**
-     * Fetches and sets customer service sub-categories based on the given ID
-     * @example
-     * exampleFunction()
-     * No return value
-     * @param {number} id - The ID of the sub-category to fetch.
-     * @returns {void} 
-     * @description
-     *   - Retrieves zoneId from localStorage and sends it in the request headers.
-     *   - Sets the initial service and variant quantities upon successful data fetch.
-     *   - Handles and logs errors if the request fails.
-     */
     const fetchServices = async () => {
       try {
         const data = { limit: 10, offset: 1 };
@@ -105,21 +102,20 @@ const SubCategoryDisplay = () => {
             },
             {}
           );
+          console.log(" initialQuantities");
+
           console.log(initialQuantities);
           setVariantQuantities(initialQuantities);
+
+          fetchCartItems();
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchServices();
-
   }, [id]);
-  useEffect(() => {
-    fetchCartItems();
 
-    console.log("Current variant quantities:", variantQuantities);
-  }, [variantQuantities]);
   useEffect(() => {
     if (selectedService.id && variantsRef.current[selectedService.id]) {
       variantsRef.current[selectedService.id].scrollIntoView({
@@ -142,7 +138,7 @@ const SubCategoryDisplay = () => {
   ) => {
     setVariantQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [variationId]: (prevQuantities[variationId] || 0) + 1,
+      [variationId]: 1,
     }));
     const data = {
       service_id: serviceId,
@@ -174,20 +170,19 @@ const SubCategoryDisplay = () => {
 
   const handleQuantityChange = async (variationId, change) => {
     const newQuantity = (variantQuantities[variationId] || 0) + change;
-  
+
     if (newQuantity <= 0) {
       return; // Prevent the quantity from going below 1
     }
-  
+
     setVariantQuantities((prevQuantities) => ({
       ...prevQuantities,
       [variationId]: newQuantity,
     }));
 
-  
     // Find the cart item that matches the variant key
-    const cartItem = cartItems.find(item => item.variant_key === variationId);
-  
+    const cartItem = cartItems.find((item) => item.variant_key === variationId);
+
     if (cartItem) {
       try {
         const response = await axios.put(
@@ -201,7 +196,7 @@ const SubCategoryDisplay = () => {
             },
           }
         );
-  
+
         if (response.data.response_code === "default_200") {
           toast.success("Quantity updated successfully!");
           fetchCartItems(); // Refresh the cart items after updating the quantity
@@ -212,7 +207,70 @@ const SubCategoryDisplay = () => {
       }
     }
   };
-  
+  const handleRemoveCartItems = async (variationKey) => {
+    const removeCartItem = cartItems.find(
+      (item) => item.variant_key === variationKey
+    );
+    if (removeCartItem) {
+      console.log("mnb");
+      try {
+        setVariantQuantities((prevQuantities) => ({
+          ...prevQuantities,
+          [variationKey]: 0,
+        }));
+        const responseCartItems = await axios.delete(
+          `${process.env.REACT_APP_ENDPOINT}/customer/cart/remove/${removeCartItem.id}`,
+          {
+            headers: {
+              zoneId: localStorage.getItem("zoneId"),
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+
+        if (responseCartItems.data.response_code === "default_delete_200") {
+          toast.success("Item deleted successfully!");
+          fetchCartItems();
+        } //if ends
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    // api ncall
+  };
+
+  const handleEmptyCart = async () => {
+    const confirmed = window.confirm(
+      "Are you sure ? you want to empty the cart !"
+    );
+    if (confirmed) {
+      const newQuantities = cartItems.reduce((acc, variation) => {
+        acc[variation.variant_key] = 0;
+        return acc;
+      }, {});
+
+      setVariantQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        ...newQuantities,
+      }));
+
+      const responseCartItems = await axios.delete(
+        `${process.env.REACT_APP_ENDPOINT}/customer/cart/data/empty`,
+        {
+          headers: {
+            zoneId: localStorage.getItem("zoneId"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (responseCartItems.data.response_code === "default_delete_200") {
+        toast.success("Cart is Empty");
+        fetchCartItems();
+      } //if ends
+    } //ends confirmed
+  }; //ensds handleEmptyCart
+
   return (
     <div style={{ padding: "20px" }}>
       <Row style={{ height: "100vh" }}>
@@ -221,8 +279,8 @@ const SubCategoryDisplay = () => {
             <h5 className="service-title-name">{name}</h5>
             {serviceLoader ? (
               <>
-                <Spinner style={{color:"#9000aa"}} animation="border" />
-                </>
+                <Spinner style={{ color: "#9000aa" }} animation="border" />
+              </>
             ) : (
               <Row
                 style={{
@@ -263,7 +321,7 @@ const SubCategoryDisplay = () => {
           <div className="serviceVariantsDiv">
             {serviceLoader ? (
               <>
-                <Spinner style={{color:"#9000aa"}} animation="border" />
+                <Spinner style={{ color: "#9000aa" }} animation="border" />
               </>
             ) : (
               <>
@@ -339,7 +397,6 @@ const SubCategoryDisplay = () => {
                             ₹ {variation.price}
                           </span>
                         </div>
-
 
                         <div style={{ display: "flex", alignItems: "center" }}>
                           {variantQuantities[variation.variant_key] > 0 ? (
@@ -418,12 +475,29 @@ const SubCategoryDisplay = () => {
             ) : (
               <div className="">
                 <>
-                  <h5> Cart </h5>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h5> Cart</h5>
+                    <div>
+                      {" "}
+                      <h5
+                        style={{ color: "red", fontSize: "12px" }}
+                        onClick={handleEmptyCart}
+                      >
+                        {" "}
+                        Empty Cart <BsTrash3 />
+                      </h5>
+                    </div>
+                  </div>
 
                   {cartLoader ? (
                     <>
-                <Spinner style={{color:"#9000aa"}} animation="border" />
-                </>
+                      <Spinner
+                        style={{ color: "#9000aa" }}
+                        animation="border"
+                      />
+                    </>
                   ) : (
                     <>
                       {cartItems.map((item) => (
@@ -456,7 +530,7 @@ const SubCategoryDisplay = () => {
                             </p>
                           </Col>
                           <Col
-                            md={6}
+                            md={4}
                             style={{
                               display: "flex",
                               justifyContent: "flex-end",
@@ -485,7 +559,7 @@ const SubCategoryDisplay = () => {
                               <span
                                 style={{ margin: "0 10px", fontSize: "12px" }}
                               >
-                                {item.quantity}
+                                {variantQuantities[item.variant_key]}
                               </span>
 
                               <div
@@ -498,15 +572,33 @@ const SubCategoryDisplay = () => {
                               </div>
                             </div>
                           </Col>
-                          {/* <Col>
-                            
-                          </Col> */}
+                          <Col
+                            md={2}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginTop: "11px",
+                            }}
+                          >
+                            <p>
+                              {" "}
+                              <CgCloseO
+                                onClick={() =>
+                                  handleRemoveCartItems(item.variant_key)
+                                }
+                              />
+                            </p>
+                          </Col>
                         </Row>
                       ))}
                       <div className="pt-4 d-grid gap-2 ">
-                        <Button className="cart-btn" size="sm">
-                          view cart
+                      <NavLink to="/checkOut"  className="cart-btn">
+                        <Button style={{
+                          borderColor:"#9000aa !important"
+                        }} className="cart-btn" size="sm">
+                        view cart 
                         </Button>
+                        </NavLink>
                       </div>
                     </>
                   )}
