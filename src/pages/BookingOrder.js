@@ -41,7 +41,9 @@ const BookingOrder = () => {
     }
   
   return (
-    <div className="container p-2">BookingOrder
+    <div className="container p-2 pb-4 mt-3 text-left">
+      <h5 className='bookingTitle'><b className='pb-4  text-left '>Your Bookings</b></h5>
+      <br></br>
     <Table className="table-bordered bookingTable">
     
       <thead>

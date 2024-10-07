@@ -8,6 +8,7 @@ import { FiPlus } from "react-icons/fi";
 import { GrEdit } from "react-icons/gr";
 import Map from "./Map";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 export const CheckOutPage = () => {
   const [cartItems, setcartItems] = useState([]);
@@ -16,6 +17,7 @@ export const CheckOutPage = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const navigate = useNavigate();
 
   const [addressFormData, setAddressFormData] = useState({
     houseName: "",
@@ -272,7 +274,7 @@ export const CheckOutPage = () => {
       image: "https://your-logo-url.com",
       handler: function (response) {
         console.log("Payment Success", response);
-        createOrder({ paymentType: 'ash_after_service' })    
+        createOrder({ paymentType: 'cash_after_service' })    
         // alert(`Payment ID: ${response.razorpay_payment_id}`);
       },
       prefill: {
@@ -301,7 +303,7 @@ export const CheckOutPage = () => {
   // payment code ends
 
   // order create
-  const createOrder = ({paymentType}) => {
+  const createOrder = async({paymentType}) => {
     if(!validateAndProceed()) {
       return;
        }
@@ -321,7 +323,7 @@ export const CheckOutPage = () => {
 
     };
     try{
-      const response =  axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_ENDPOINT}/customer/booking/request/send`,
         data,
         {
@@ -332,8 +334,14 @@ export const CheckOutPage = () => {
           },
         }
       );
+      console.log(response);
+
       if(response.data.response_code === 'booking_place_success_200'){
         //booking page
+        navigate('/bookings'); 
+
+      }else{
+        toast.error("Booking failed. Please try again !")
       }
       console.log(response.data);
     }

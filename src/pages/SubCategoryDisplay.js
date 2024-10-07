@@ -136,6 +136,12 @@ const SubCategoryDisplay = () => {
     subCategoryId,
     VariantKey
   ) => {
+
+    if(!localStorage.getItem("token") || localStorage.getItem("token") === null){
+      toast.error("Please Login");
+      return false;
+    }
+
     setVariantQuantities((prevQuantities) => ({
       ...prevQuantities,
       [variationId]: 1,

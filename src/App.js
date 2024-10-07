@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import LoginModal from "./pages/loginModal";
 import SearchModal from "./pages/SearchModal";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
   const handleProceed = (location) => {
     setLocation(location);
     setIsModalOpen(false);
+    window.location.reload();
+
     // Proceed to the next screen or handle the location data
     console.log("Location set:", location);
   };
@@ -111,6 +114,7 @@ function App() {
       <div className="App-body">
         <Main currentUser={currentUser} handleLogin={handleLogin} />
       </div>
+      {/* <Footer></Footer> */}
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={handleLoginCloseModal}
@@ -123,8 +127,7 @@ function App() {
       />
       {location && (
         <div>
-          <p>Location set: {location.toString()}</p>
-          <p>Proceed to the next screen...</p>
+         
         </div>
       )}
       <SearchModal

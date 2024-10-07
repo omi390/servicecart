@@ -13,15 +13,13 @@ const Home = () => {
   const imgBaseUrl = localStorage.getItem("imgBaseURL");
 
   useEffect(() => {
-
-
     const fetchCategories = async () => {
       try {
         const data = {
           limit: 10,
           offset: 1,
         };
-        
+
         const zoneId = localStorage.getItem("zoneId");
         const response = await axios.get(
           `${process.env.REACT_APP_ENDPOINT}/customer/category`,
@@ -93,9 +91,14 @@ const Home = () => {
           <Slider {...categorySliderSettings}>
             {categories.map((category, index) => (
               <div key={category.id}>
-                <img src={`${imgBaseUrl}/category/${category.image}`} alt="i mg" />
-                <h5  className="category-slider-font-title pt-4">
-                  <Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link>
+                <img
+                  src={`${imgBaseUrl}/category/${category.image}`}
+                  alt="i mg"
+                />
+                <h5 className="category-slider-font-title pt-4">
+                  <Link to={`/category/${category.id}/${category.name}`}>
+                    {category.name}
+                  </Link>
                 </h5>
               </div>
             ))}
@@ -104,10 +107,10 @@ const Home = () => {
       </div>
 
       <div className="trendingServicesDiv container">
-        <TrendingServices />
+        {/* <TrendingServices /> */}
       </div>
       <div className="container">
-        <RecommandServices />
+        {/* <RecommandServices /> */}
       </div>
     </div>
   );

@@ -592,5 +592,44 @@ width: 900px !important;
   padding: 8px;
   text-align: center;
   /* display: flex; */
-  /* flex-direction: column; */
+  /* flex-d{irection: column; */
+}
+.bookingTitle{
+  text-align: left;
+  font-size: 19px;
+}
+
+/* footer  */
+
+/* Footer.css */
+.footer {
+  background-color: #282c34;
+  color: white;
+  padding: 20px 0;
+  bottom: 0% !important;
+  text-align: center;
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+.footer nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer nav ul li a:hover {
+  text-decoration: underline;
 }
